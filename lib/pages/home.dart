@@ -10,7 +10,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Welcome to the app'),
+        child: Text('Welcome to the app after setting up on github'),
       ),
       
     );
