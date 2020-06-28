@@ -1,3 +1,5 @@
+import 'package:corona/pages/initial.dart';
+import 'package:corona/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -9,10 +11,12 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('Welcome to the app after setting up on github how it is working '),
+      body: Stack(
+        children: <Widget>[
+          Initial(),
+          Sidebar(),
+        ],
       ),
-      
     );
   }
 }
