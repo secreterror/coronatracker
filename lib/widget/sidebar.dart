@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:corona/nav/blocnav.dart';
+import 'package:corona/widget/menuitem.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 class Sidebar extends StatefulWidget {
@@ -17,7 +20,7 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin<S
   StreamSink<bool> isSideBarOpenedSink;
 
 //  final bool isOpened=false;
-  final _animationDuration= const Duration(milliseconds: 500);
+  final _animationDuration= const Duration(milliseconds: 400);
 
   @override
   void initState(){
@@ -27,7 +30,6 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin<S
       duration: _animationDuration
     );
     isSideBarOpenedStreamController=PublishSubject<bool>();
-
     isSideBarOpenedStream =isSideBarOpenedStreamController.stream;
     isSideBarOpenedSink=isSideBarOpenedStreamController.sink;
   }
@@ -104,7 +106,39 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin<S
                           ),
                         ),
 
-                      )
+                      ),
+                      Divider(
+                        height: 64,
+                        thickness: 0.5,
+                        color: Colors.white.withOpacity(.4),
+                        indent: 32,
+                        endIndent: 32,
+                      ),
+                      MenuItem(
+                        icon: Icons.home,
+                        title: 'Home',
+                        onTap: (){
+                          onIconPressed();
+                          BlocProvider.of<NavigationBloc>(context).add(NavigationEvent.HomePageClick);
+                        },
+                      ),
+                      MenuItem(
+                        icon: Icons.phone,
+                        title: 'Contact Us',
+                        onTap: (){
+                          onIconPressed();
+                          BlocProvider.of<NavigationBloc>(context).add(NavigationEvent.ContactClick);
+                        },
+                      ),
+                      MenuItem(
+                        icon: Icons.question_answer,
+                        title: 'FAQS',
+                        onTap: (){
+                          onIconPressed();
+                          BlocProvider.of<NavigationBloc>(context).add(NavigationEvent.FaqClick);
+                        },
+                      ),
+
                     ],
                   ),
                 ),
