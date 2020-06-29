@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:corona/data.dart';
 import 'package:corona/nav/blocnav.dart';
 import 'package:corona/widget/menuitem.dart';
 import 'package:flutter/material.dart';
@@ -78,31 +79,35 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin<S
             children: <Widget>[
               Expanded(
                 child: Container(
-                  color: Colors.blue,
+                  color: primaryBlack,
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: 100,),
                       ListTile(
-                        title: Text('Corona Tracker',
+                        title: Text('Covid-19-Tracker',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 30,
-                          fontWeight: FontWeight.w900
+                          fontWeight: FontWeight.w500
                         ),
                         ),
                         subtitle: Text(
-                          'By secreterror',
+                          'by secreterror',
                           style: TextStyle(
 //                            color: Colors.white.withAlpha(1),
                             fontWeight:FontWeight.w200,
-                            fontSize: 20
+                            fontSize: 20,
+                            color: Colors.white.withOpacity(0.5)
 
                           ),
                         ),
                         leading: CircleAvatar(
+                          backgroundColor: Colors.white,
                           child: Icon(
+
                             Icons.perm_identity,
-                            color: Colors.white,
+                            color: Colors.black,
+
                           ),
                         ),
 
@@ -153,7 +158,7 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin<S
                     alignment:Alignment.topLeft,
                     child: Container(
                       width: 30,
-                      height: screenHeight/8,
+                      height: screenHeight/15,
                       color: Colors.amber,
                       alignment: Alignment.centerLeft,
                       child: AnimatedIcon(
