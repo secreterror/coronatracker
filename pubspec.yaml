@@ -37,6 +37,10 @@ dependencies:
   cached_network_image: ^2.2.0+1
   pie_chart: ^3.1.1
   avatar_glow: ^1.2.0
+  flutter_svg: ^0.17.3+1
+  fl_chart: ^0.10.0
+  font_awesome_flutter: ^8.8.1
+  google_fonts: ^1.1.0
 
 
 dev_dependencies:
@@ -53,11 +57,11 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/images/sport.svg
+    - assets/images/search.svg
+    - assets/images/arrow.svg
 
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

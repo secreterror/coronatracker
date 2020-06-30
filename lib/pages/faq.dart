@@ -1,14 +1,11 @@
 import 'package:corona/nav/blocnav.dart';
 import 'package:flutter/material.dart';
+import 'package:corona/widget/chart.dart';
 class Faq extends StatelessWidget with NavigationState{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(
-          'This is question and answer page '
-        ),
-      ),
+      body: Container(child: Center(child: Container(child: WeeklyChart())))
     );
   }
 }
