@@ -2,12 +2,14 @@
 import 'package:corona/pages/contact.dart';
 import 'package:corona/pages/faq.dart';
 import 'package:corona/pages/initial.dart';
+import 'package:corona/pages/country.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum NavigationEvent {
   HomePageClick,
   FaqClick,
-  ContactClick
+  ContactClick,
+  RegionalClick
 }
 abstract class NavigationState{}
 class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
@@ -25,6 +27,9 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
        break;
      case NavigationEvent.ContactClick:
        yield Contact();
+       break;
+     case NavigationEvent.RegionalClick:
+       yield CountryPage();
        break;
    }
   }

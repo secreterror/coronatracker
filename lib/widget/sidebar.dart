@@ -70,7 +70,6 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin<S
       builder: (context,isOpened){
         return AnimatedPositioned(
           duration: _animationDuration,
-
           top: 0,
           bottom:0,
           left:isOpened.data?0:-screenWidth,
@@ -143,6 +142,14 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin<S
                           BlocProvider.of<NavigationBloc>(context).add(NavigationEvent.FaqClick);
                         },
                       ),
+                      MenuItem(
+                        icon: Icons.question_answer,
+                        title: 'Regional',
+                        onTap: (){
+                          onIconPressed();
+                          BlocProvider.of<NavigationBloc>(context).add(NavigationEvent.RegionalClick);
+                        },
+                      ),
 
                     ],
                   ),
@@ -158,7 +165,7 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin<S
                     alignment:Alignment.topLeft,
                     child: Container(
                       width: 30,
-                      height: screenHeight/15,
+                      height: screenHeight/20,
                       color: Colors.amber,
                       alignment: Alignment.centerLeft,
                       child: AnimatedIcon(

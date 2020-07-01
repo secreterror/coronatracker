@@ -7,7 +7,8 @@ import 'package:intl/intl.dart';
 
 class MostAffected extends StatelessWidget {
   final List countryData;
-  MostAffected({this.countryData});
+  final List prevDay;
+  MostAffected({this.countryData,this.prevDay});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,8 @@ class MostAffected extends StatelessWidget {
 class MostAffectedTile extends StatelessWidget {
   final List countryData;
   final int idx;
-  MostAffectedTile({this.countryData,this.idx});
+  final int prevDay;
+  MostAffectedTile({this.countryData,this.idx,this.prevDay});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class MostAffectedTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         shadowColor: Colors.black45,
         child: Container(
-          width: MediaQuery.of(context).size.width*0.7,
+          width: MediaQuery.of(context).size.width*0.72,
           padding: EdgeInsets.all(8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -72,35 +74,42 @@ class MostAffectedTile extends StatelessWidget {
                 thickness: 1.5,
               ),
               SizedBox(height: 4,),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 6,horizontal: 12),
-                margin: EdgeInsets.only(bottom: 12),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Config.redColor.withOpacity(.2),
-                  borderRadius: BorderRadius.circular(4),
+              Flexible(
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 6,horizontal: 12),
+                  margin: EdgeInsets.only(bottom: 12),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Config.redColor.withOpacity(.2),
+                    borderRadius: BorderRadius.circular(4),
 
-                ),
-                child: Row(
-                  children: <Widget>[
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
 
-                    Text('Infected: '+NumberFormat.compact().format(countryData[idx]['cases']).toString(),style: Config.infectedStyle,),
-                    Padding(
-                      padding: const EdgeInsets.only(top:3.0),
-                      child: Icon(
-                        Icons.arrow_drop_up,
-                        color: Colors.black,
-                        size: 25,
+                      Flexible(flex:7,child: Text('Infected: '+NumberFormat.compact().format(countryData[idx]['cases']).toString(),style: Config.infectedStyle,)),
+                      Padding(
+                        padding: const EdgeInsets.only(top:3.0),
+                        child: Icon(
+                          Icons.arrow_drop_up,
+                          color: Colors.black,
+                          size: 25,
+                        ),
                       ),
-                    ),
-                    Text((countryData[idx]['todayCases']).toString(),
-                    style: TextStyle(
-                      color: Config.redColor
-                    ),)
-                  ],
+                      Flexible(
+                        flex: 2,
+                        child: Text(countryData[idx]['todayCases'].toString(),
+                        style: TextStyle(
+                          color: Config.redColor
+                        ),),
+                      )
+                    ],
+                  ),
                 ),
               ),
-              Container(
+              Flexible(
+               child:Container(
                 padding: EdgeInsets.symmetric(vertical: 6,horizontal: 12),
                 margin: EdgeInsets.only(bottom: 12),
                 width: double.infinity,
@@ -111,16 +120,19 @@ class MostAffectedTile extends StatelessWidget {
                 ),
                 child: Text('Active: '+countryData[idx]['active'].toString(),style: Config.activeStyle,),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 6,horizontal: 12),
-                margin: EdgeInsets.only(bottom: 12),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Config.primaryColor.withOpacity(.2),
-                  borderRadius: BorderRadius.circular(4),
+              ),
+              Flexible(
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 6,horizontal: 12),
+                  margin: EdgeInsets.only(bottom: 12),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Config.primaryColor.withOpacity(.2),
+                    borderRadius: BorderRadius.circular(4),
 
+                  ),
+                  child: Text('Death: '+countryData[idx]['deaths'].toString(),style: Config.deadStyle,),
                 ),
-                child: Text('Death: '+countryData[idx]['deaths'].toString(),style: Config.deadStyle,),
               )
             ],
           ),

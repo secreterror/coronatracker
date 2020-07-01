@@ -2,6 +2,7 @@ import 'package:corona/pages/detailPageWorld.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:number_display/number_display.dart';
@@ -12,7 +13,8 @@ class WorldWide extends StatelessWidget {
   final display=createDisplay(separator: ',');
   final Map worldData;
   final Map history;
-  WorldWide({this.worldData,this.history});
+  final int prevDay;
+  WorldWide({this.worldData,this.history,this.prevDay});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,7 +23,7 @@ class WorldWide extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 1.5, // this is the ratio of width and the height
+          childAspectRatio: 1.2, // this is the ratio of width and the height
         ),
         children: <Widget>[
           Padding(
@@ -143,122 +145,128 @@ class Template extends StatelessWidget {
   }
   Card(width){
     return Container(
-      width: width/2-10,
-      height: 80,
-      decoration: BoxDecoration(
+      margin: EdgeInsets.all(8),
+      child: Material(
+        elevation: 2,
         color: panelColor,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.center,
-                  height: 30,
-                  width: 30,
-                  decoration: BoxDecoration(
-                      color: Color(0xFFFF9C00).withOpacity(0.12),
-                      shape: BoxShape.circle
-                  ),
-                  child:SvgPicture.asset('assets/images/sport.svg',
-                    height: 12,
-                    width: 12,) ,
-                ),
-                SizedBox(width: 5),
-                Text(title,maxLines: 1,overflow: TextOverflow.ellipsis,)
-              ],
-            ),
-
+        child: Container(
+          width: width/2-10,
+          decoration: BoxDecoration(
+            color: panelColor,
+            borderRadius: BorderRadius.circular(18),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
             children: <Widget>[
-              Container(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(left:8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-
-                    children: <Widget>[
-                      RichText(
-                        text:TextSpan(
-                            children: [
-                              TextSpan(
-                                text: count,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold
-                                ),
-
-                              ),
-                            ]
-
-                        ),
-
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.center,
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                          color: Color(0xFFFF9C00).withOpacity(0.12),
+                          shape: BoxShape.circle
                       ),
-                      Text(
-                          'People',
-                          style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w800,
-                              height: 2,
-                              color: Colors.black.withOpacity(0.4)
-                          )
-                      ),
-                      title=='Confirmed'||title=='Deaths'?Row(
+                      child:SvgPicture.asset('assets/images/sport.svg',
+                        height: 12,
+                        width: 12,) ,
+                    ),
+                    SizedBox(width: 5),
+                    Text(title,maxLines: 1,overflow: TextOverflow.ellipsis,)
+                  ],
+                ),
+
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left:8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
 
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(top:3.0),
-                            child: Icon(
-                              Icons.arrow_drop_up,
-                              color: Colors.black,
-                              size: 25,
+                          RichText(
+                            text:TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: count,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold
+                                    ),
+
+                                  ),
+                                ]
+
                             ),
+
                           ),
                           Text(
-                            title=='Confirmed'?todayInc:todayDeath,
-                            style: TextStyle(
-                              fontSize: 12,
-                              height: 2,
-                              color: Colors.black,
-                            ),
-                            overflow: TextOverflow.ellipsis,
+                              'People',
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w800,
+                                  height: 2,
+                                  color: Colors.black.withOpacity(0.4)
+                              )
                           ),
+                          title=='Confirmed'||title=='Deaths'?Row(
+
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(top:3.0),
+                                child: Icon(
+                                  Icons.arrow_drop_up,
+                                  color: Colors.black,
+                                  size: 25,
+                                ),
+                              ),
+                              Text(
+                                title=='Confirmed'?todayInc:todayDeath,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  height: 2,
+                                  color: Colors.black,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+
+                            ],
+                          ):Container()
+
+
 
                         ],
-                      ):Container()
+                      ),
+                    ),
 
+                  ),Padding(
+                    padding: const EdgeInsets.only(right:20.0),
+                    child: Container(
+                      alignment: Alignment.bottomRight,
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle
+                      ),
+                      child:SvgPicture.asset('assets/images/search.svg',
+                        height:40,
+                        width: 40,) ,
+                    ),
+                  )
 
+                ],
+              ),
 
-                    ],
-                  ),
-                ),
-
-              ),Padding(
-                padding: const EdgeInsets.only(right:20.0),
-                child: Container(
-                  alignment: Alignment.bottomRight,
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.rectangle
-                  ),
-                  child:SvgPicture.asset('assets/images/search.svg',
-                    height:40,
-                    width: 40,) ,
-                ),
-              )
 
             ],
           ),
-
-
-        ],
+        ),
       ),
     );
 
