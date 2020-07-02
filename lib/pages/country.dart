@@ -62,7 +62,7 @@ class _CountryPageState extends State<CountryPage> {
           return Container(
             margin: EdgeInsets.all(8),
             child: GestureDetector(
-              onTap:()=> Navigator.push(context,MaterialPageRoute(builder: (context)=>Regional(country:countryData[idx]['country']))),
+              onTap:()=> Navigator.push(context,MaterialPageRoute(builder: (context)=>Regional(imageUrl:countryData[idx]['countryInfo']['flag'],country: countryData[idx]['country'],countryData: countryData[idx]))),
               child: Material(
                 elevation: 2,
                 color: Colors.white,

@@ -27,7 +27,7 @@ class _BarGraphState extends State<BarGraph> {
       height: MediaQuery.of(context).size.height*0.5,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: primaryBlack,
           borderRadius: BorderRadius.all(Radius.circular(8))
       ),
       child: Column(
@@ -38,7 +38,7 @@ class _BarGraphState extends State<BarGraph> {
               style: GoogleFonts.poppins(
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
-                  color: primaryBlack
+                  color: Colors.white
               )),
            Padding(
             padding: const EdgeInsets.only(top:25.0),
@@ -72,7 +72,7 @@ class _BarGraphState extends State<BarGraph> {
                             showTitles: true,
                             textStyle: GoogleFonts.poppins(
                               fontSize: 12,
-                              color: Colors.black,
+                              color: Colors.white,
                               fontWeight: FontWeight.bold
                             ),
                             getTitles: (val){
