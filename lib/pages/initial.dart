@@ -7,6 +7,7 @@ import 'package:corona/panel/worldwide.dart';
 import 'package:corona/panel/mostAffected.dart';
 import 'package:corona/panel/prevention.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:corona/pages/country.dart';
 import 'package:pie_chart/pie_chart.dart';
@@ -22,7 +23,7 @@ class _InitialState extends State<Initial>  {
   Map worldData;
   Map history;
   List mostAffected;
-  List prevDay=[];
+  List prevCountryData;
   fetchWorldData()async {
     http.Response response= await http.get('https://corona.lmao.ninja/v2/all');
     setState(() {
@@ -30,18 +31,17 @@ class _InitialState extends State<Initial>  {
     });
 
   }
-  fetchYesterday(String country,int idx)async {
-    print(country);
+  fetchYesterday()async {
 
-    http.Response response=await http.get('https://disease.sh/v3/covid-19/countries/'+country+'?yesterday=true');
-    Map prevData=json.decode(response.body);
+    http.Response response=await http.get('https://disease.sh/v3/covid-19/countries?yesterday=true&sort=cases');
+
     setState((){
-      prevDay.insert(idx, prevData['todayCases']);
-      
+      prevCountryData=json.decode(response.body);
+
     });
   }
   fetchMostAffected()async {
-    http.Response response= await http.get('https://corona.lmao.ninja/v2/countries?sort=cases');
+    http.Response response= await http.get('https://disease.sh/v3/covid-19/countries?sort=cases');
     mostAffected=json.decode(response.body);
 
 //    for(int i=0;i<5;i++){
@@ -62,16 +62,19 @@ class _InitialState extends State<Initial>  {
   }
   @override
   void initState(){
-    super.initState();
+
     fetchWorldData();
     fetchMostAffected();
     fetchHistory();
+    fetchYesterday();
+    super.initState();
   }
 
   fetchData()async{
     await fetchMostAffected();
     await fetchWorldData();
     await fetchHistory();
+
     print('here');
   }
 
@@ -114,7 +117,11 @@ class _InitialState extends State<Initial>  {
                     ),
                   ),
                 ),
-                worldData==null||history==null?CircularProgressIndicator():WorldWide(worldData: worldData,history: history,),
+                worldData==null||history==null?Center(
+                  child: SpinKitFadingCircle(
+                    color: primaryBlack,
+                  ),
+                ):WorldWide(worldData: worldData,history: history,),
                 Padding(
                   padding: const EdgeInsets.only(left:15.0,top:15,bottom:0),
                   child: Row(
@@ -145,7 +152,7 @@ class _InitialState extends State<Initial>  {
                   ),
                 ),
 
-              mostAffected==null?Container():MostAffected(countryData: mostAffected,prevDay: prevDay,),
+              mostAffected==null||prevCountryData==null?Container():MostAffected(countryData: mostAffected,prevDay: prevCountryData,),
 
               ],
             ),

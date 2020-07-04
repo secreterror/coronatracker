@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:corona/nav/blocnav.dart';
 import 'package:http/http.dart' as http;
@@ -20,6 +21,7 @@ class CountryPage extends StatefulWidget with NavigationState {
 
 class _CountryPageState extends State<CountryPage> {
   List countryData;
+  List prevCountryData;
   fetchCountryData()async {
     http.Response response= await http.get('https://corona.lmao.ninja/v2/countries');
     setState(() {
@@ -27,11 +29,24 @@ class _CountryPageState extends State<CountryPage> {
     });
 
   }
+  fetchYesterday()async {
+
+    http.Response response=await http.get('https://disease.sh/v3/covid-19/countries?yesterday=true');
+
+    if(this.mounted){
+      setState((){
+        prevCountryData=json.decode(response.body);
+
+      });
+    }
+  }
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+
     fetchCountryData();
+    fetchYesterday();
+    super.initState();
   }
 
   @override
@@ -55,14 +70,18 @@ class _CountryPageState extends State<CountryPage> {
         ),
 
       ),
-      body: countryData==null?CircularProgressIndicator():
+      body: countryData==null||fetchYesterday()==null?Center(
+        child: SpinKitFadingCircle(
+          color: Colors.white,
+        ),
+      ):
       RefreshIndicator(
         onRefresh: ()=>fetchCountryData(),
         child: ListView.builder(itemBuilder:(context,idx){
           return Container(
             margin: EdgeInsets.all(8),
             child: GestureDetector(
-              onTap:()=> Navigator.push(context,MaterialPageRoute(builder: (context)=>Regional(imageUrl:countryData[idx]['countryInfo']['flag'],country: countryData[idx]['country'],countryData: countryData[idx]))),
+              onTap:()=> Navigator.push(context,MaterialPageRoute(builder: (context)=>Regional(imageUrl:countryData[idx]['countryInfo']['flag'],country: countryData[idx]['country'],countryData: countryData[idx],prevCountryData: prevCountryData[idx],))),
               child: Material(
                 elevation: 2,
                 color: Colors.white,

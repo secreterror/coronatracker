@@ -132,13 +132,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.1"
-  flutter_money_formatter:
+  flutter_spinkit:
     dependency: "direct main"
     description:
-      name: flutter_money_formatter
+      name: flutter_spinkit
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.3"
+    version: "4.1.2+1"
   flutter_svg:
     dependency: "direct main"
     description:

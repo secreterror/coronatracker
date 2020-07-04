@@ -6,6 +6,7 @@ import 'package:corona/data.dart';
 import 'package:corona/widget/barGraph.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,7 +14,8 @@ class Regional extends StatefulWidget {
   final String imageUrl;
   final String country;
   Map countryData;
-  Regional({this.country,this.imageUrl,this.countryData});
+  Map prevCountryData;
+  Regional({this.country,this.imageUrl,this.countryData,this.prevCountryData});
 
   @override
   _RegionalState createState() => _RegionalState();
@@ -33,7 +35,7 @@ class _RegionalState extends State<Regional> with TickerProviderStateMixin{
   List<String> date;
   fetchHistory()async {
     print('inthe grid');
-    http.Response response= await http.get('https://corona.lmao.ninja/v2/historical/'+widget.country+'?lastdays=6');
+    http.Response response= await http.get('https://disease.sh/v3/covid-19/historical/'+widget.country+'?lastdays=6');
     setState(() {
       history=json.decode(response.body);
       print(history.length);
@@ -69,7 +71,11 @@ class _RegionalState extends State<Regional> with TickerProviderStateMixin{
   }
   @override
   Widget build(BuildContext context) {
-    return history==null?Scaffold(appBar:AppBar(),body: Center(child: CircularProgressIndicator()),backgroundColor: primaryBlack,):
+    return history==null?Scaffold(appBar:AppBar(),body:Center(
+      child: SpinKitFadingCircle(
+        color: Colors.white,
+      ),
+    ),backgroundColor: primaryBlack,):
     Scaffold(
       backgroundColor: primaryBlack,
       body: CustomScrollView(
@@ -217,21 +223,14 @@ class _RegionalState extends State<Regional> with TickerProviderStateMixin{
                         critical: widget.countryData['critical'].toString(),
                         active: widget.countryData['active'].toString(),
                       ),
-                      history.length==1?StatusGrid(
-                        total: 'N/A',
-                        recover: 'N/A',
+                      StatusGrid(
+                        total:'[ ' +widget.prevCountryData['todayCases'].toString()+' ]+',
+                        recover:'[ '+ widget.prevCountryData['todayRecovered'].toString()+' ]+',
+                        death:'[ '+ widget.prevCountryData['todayDeaths'].toString() +' ]+',
                         critical: 'N/A',
-                        death: 'N/A',
-                        active: 'N/A',
-
-                      ):StatusGrid(
-                        total:'[' +(history['timeline']['cases'].values.elementAt(5)-history['timeline']['cases'].values.elementAt(4)).toString()+']+',
-                        recover: (history['timeline']['deaths'].values.elementAt(5)-history['timeline']['deaths'].values.elementAt(4)).toString(),
-                        death: (history['timeline']['recovered'].values.elementAt(5)-history['timeline']['recovered'].values.elementAt(4)).toString(),
-                        active: (widget.countryData['active']-widget.countryData['todayRecovered']).toString(),
-                        critical: 'N/A',
-
+                          active: (widget.countryData['active']-(widget.prevCountryData['todayCases']-widget.prevCountryData['todayRecovered']-widget.prevCountryData['todayDeaths'])).toString(),
                       ),
+
                       StatusGrid(
                         total:'['+ widget.countryData['todayCases'].toString()+']+',
                         recover:'[' +widget.countryData['todayRecovered'].toString()+']+',

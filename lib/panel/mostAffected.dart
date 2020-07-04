@@ -19,7 +19,7 @@ class MostAffected extends StatelessWidget {
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context,idx){
-          return MostAffectedTile(countryData: countryData,idx: idx,);
+          return MostAffectedTile(countryData: countryData,idx: idx,prevDay: prevDay,);
         },
         itemCount: 5,
       ),
@@ -32,7 +32,7 @@ class MostAffected extends StatelessWidget {
 class MostAffectedTile extends StatelessWidget {
   final List countryData;
   final int idx;
-  final int prevDay;
+  final List  prevDay;
   MostAffectedTile({this.countryData,this.idx,this.prevDay});
 
   @override
@@ -40,7 +40,7 @@ class MostAffectedTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(8),
       child: GestureDetector(
-        onDoubleTap:() => Navigator.push(context,MaterialPageRoute(builder: (context)=>Regional(imageUrl:countryData[idx]['countryInfo']['flag'],country: countryData[idx]['country'],countryData: countryData[idx]))),
+        onDoubleTap:() => Navigator.push(context,MaterialPageRoute(builder: (context)=>Regional(imageUrl:countryData[idx]['countryInfo']['flag'],country: countryData[idx]['country'],countryData: countryData[idx],prevCountryData: prevDay[idx],))),
         child: Material(
           elevation: 2,
           color: Colors.white,
@@ -91,13 +91,13 @@ class MostAffectedTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
 
-                        Flexible(flex:7,child: Text('Infected: '+NumberFormat.compact().format(countryData[idx]['cases']).toString(),style: Config.infectedStyle,)),
+                        Flexible(flex:8,child: Text('Infected: '+NumberFormat.compact().format(countryData[idx]['cases']).toString(),style: Config.infectedStyle,)),
                         Padding(
-                          padding: const EdgeInsets.only(top:3.0),
+                          padding: const EdgeInsets.only(top:5.0),
                           child: Icon(
                             Icons.arrow_drop_up,
                             color: Colors.black,
-                            size: 25,
+                            size: 20,
                           ),
                         ),
                         Flexible(

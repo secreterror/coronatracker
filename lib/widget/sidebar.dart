@@ -33,6 +33,7 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin<S
     isSideBarOpenedStreamController=PublishSubject<bool>();
     isSideBarOpenedStream =isSideBarOpenedStreamController.stream;
     isSideBarOpenedSink=isSideBarOpenedStreamController.sink;
+    super.initState();
   }
 
   @override
